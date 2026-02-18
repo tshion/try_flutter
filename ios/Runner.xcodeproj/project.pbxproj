@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05F69B3A2F459C0A000AA997 /* TryKMP in Frameworks */ = {isa = PBXBuildFile; productRef = 05F69B392F459C0A000AA997 /* TryKMP */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -64,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05F69B3A2F459C0A000AA997 /* TryKMP in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +195,9 @@
 				Base,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
+			packageReferences = (
+				05F69B382F459C0A000AA997 /* XCRemoteSwiftPackageReference "TryKMMRepo" */,
+			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -615,6 +620,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		05F69B382F459C0A000AA997 /* XCRemoteSwiftPackageReference "TryKMMRepo" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tshion/TryKMMRepo";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		05F69B392F459C0A000AA997 /* TryKMP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05F69B382F459C0A000AA997 /* XCRemoteSwiftPackageReference "TryKMMRepo" */;
+			productName = TryKMP;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 97C146E61CF9000F007C117D /* Project object */;
 }

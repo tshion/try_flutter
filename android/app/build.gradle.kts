@@ -11,6 +11,7 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -41,4 +42,16 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation(files("libs/trykmp-android-0.1.3.aar"))
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+
+    val ktor = "3.4.0"
+    implementation("io.ktor:ktor-client-content-negotiation:${ktor}")
+    implementation("io.ktor:ktor-client-okhttp:$ktor")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
 }

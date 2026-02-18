@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:try_flutter/bridge/trykmp.g.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,8 +56,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final _trykmp = TryKmpHostApi();
 
   void _incrementCounter() {
+    _trykmp.time().then((value) => print(value));
+    _trykmp.searchGitHubRepo("flutter").then((value) => print(value));
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below

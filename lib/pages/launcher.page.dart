@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:try_flutter/molecules/loading.molecule.dart';
+import 'package:try_flutter/molecules/loading.overlay.dart';
 import 'package:try_flutter/pages/top.page.dart';
 
 /// 起動画面
@@ -13,12 +13,12 @@ class LauncherPage extends StatefulWidget {
 }
 
 class _LauncherPageState extends State<LauncherPage> {
-  Timer? timer;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    timer = Timer(const Duration(milliseconds: 1500), () {
+    _timer = Timer(const Duration(milliseconds: 1500), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -37,14 +37,14 @@ class _LauncherPageState extends State<LauncherPage> {
           constraints: BoxConstraints.expand(),
         ),
         Center(child: const Text("Launcher")),
-        LoadingView(),
+        LoadingOverlay(),
       ],
     );
   }
 
   @override
   void dispose() {
-    timer?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 }

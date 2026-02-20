@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:try_flutter/atoms/scrim.overlay.dart';
 
 /// ローディング表示
-class LoadingView extends StatelessWidget {
-  const LoadingView({super.key});
+class LoadingOverlay extends StatelessWidget {
+  const LoadingOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          color: Color(0x66000000),
-          constraints: BoxConstraints.expand(),
-        ),
+        ScrimOverlay(),
         Center(child: const CircularProgressIndicator()),
       ],
     );

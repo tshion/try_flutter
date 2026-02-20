@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:try_flutter/pages/launcher.page.dart';
+import 'package:try_flutter/screens/launcher.screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LauncherPage(),
+      home: LauncherScreen(),
     );
   }
 }

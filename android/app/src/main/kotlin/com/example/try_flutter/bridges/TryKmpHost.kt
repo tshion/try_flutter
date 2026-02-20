@@ -1,4 +1,4 @@
-package com.example.try_flutter.bridge
+package com.example.try_flutter.bridges
 
 import io.github.tshion.trykmp.TryKmp
 import kotlinx.coroutines.CoroutineScope

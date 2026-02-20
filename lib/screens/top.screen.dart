@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:try_flutter/bridge/trykmp.g.dart';
+import 'package:try_flutter/bridges/trykmp.g.dart';
 
 /// トップ画面
-class TopPage extends StatefulWidget {
-  const TopPage({super.key, required this.title});
+class TopScreen extends StatefulWidget {
+  const TopScreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<StatefulWidget> createState() => _TopPageState();
+  State<StatefulWidget> createState() => _TopScreenState();
 }
 
-class _TopPageState extends State<TopPage> {
+class _TopScreenState extends State<TopScreen> {
   int _counter = 0;
   final _trykmp = TryKmpHostApi();
 

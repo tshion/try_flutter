@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:try_flutter/molecules/loading.overlay.dart';
-import 'package:try_flutter/pages/top.page.dart';
+import 'package:try_flutter/designs/loading.overlay.dart';
+import 'package:try_flutter/screens/top.screen.dart';
 
 /// 起動画面
-class LauncherPage extends StatefulWidget {
-  const LauncherPage({super.key});
+class LauncherScreen extends StatefulWidget {
+  const LauncherScreen({super.key});
 
   @override
-  State<LauncherPage> createState() => _LauncherPageState();
+  State<LauncherScreen> createState() => _LauncherScreenState();
 }
 
-class _LauncherPageState extends State<LauncherPage> {
+class _LauncherScreenState extends State<LauncherScreen> {
   Timer? _timer;
 
   @override
@@ -22,7 +22,8 @@ class _LauncherPageState extends State<LauncherPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const TopPage(title: 'Flutter Demo Home Page'),
+          builder: (context) =>
+              const TopScreen(title: 'Flutter Demo Home Page'),
         ),
       );
     });

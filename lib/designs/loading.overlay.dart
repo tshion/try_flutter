@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:try_flutter/atoms/scrim.overlay.dart';
+import 'package:try_flutter/designs/scrim.overlay.dart';
 
 /// ローディング表示
 class LoadingOverlay extends StatelessWidget {

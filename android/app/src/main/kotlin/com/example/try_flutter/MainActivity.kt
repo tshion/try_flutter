@@ -1,8 +1,8 @@
 package com.example.try_flutter
 
 import androidx.lifecycle.lifecycleScope
-import com.example.try_flutter.bridge.TryKmpHost
-import com.example.try_flutter.bridge.TryKmpHostApi
+import com.example.try_flutter.bridges.TryKmpHost
+import com.example.try_flutter.bridges.TryKmpHostApi
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 

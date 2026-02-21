@@ -64,11 +64,169 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   return value as! T?
 }
 
+func deepEqualsTryKmp(_ lhs: Any?, _ rhs: Any?) -> Bool {
+  let cleanLhs = nilOrValue(lhs) as Any?
+  let cleanRhs = nilOrValue(rhs) as Any?
+  switch (cleanLhs, cleanRhs) {
+  case (nil, nil):
+    return true
+
+  case (nil, _), (_, nil):
+    return false
+
+  case is (Void, Void):
+    return true
+
+  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
+    return cleanLhsHashable == cleanRhsHashable
+
+  case let (cleanLhsArray, cleanRhsArray) as ([Any?], [Any?]):
+    guard cleanLhsArray.count == cleanRhsArray.count else { return false }
+    for (index, element) in cleanLhsArray.enumerated() {
+      if !deepEqualsTryKmp(element, cleanRhsArray[index]) {
+        return false
+      }
+    }
+    return true
+
+  case let (cleanLhsDictionary, cleanRhsDictionary) as ([AnyHashable: Any?], [AnyHashable: Any?]):
+    guard cleanLhsDictionary.count == cleanRhsDictionary.count else { return false }
+    for (key, cleanLhsValue) in cleanLhsDictionary {
+      guard cleanRhsDictionary.index(forKey: key) != nil else { return false }
+      if !deepEqualsTryKmp(cleanLhsValue, cleanRhsDictionary[key]!) {
+        return false
+      }
+    }
+    return true
+
+  default:
+    // Any other type shouldn't be able to be used with pigeon. File an issue if you find this to be untrue.
+    return false
+  }
+}
+
+func deepHashTryKmp(value: Any?, hasher: inout Hasher) {
+  if let valueList = value as? [AnyHashable] {
+     for item in valueList { deepHashTryKmp(value: item, hasher: &hasher) }
+     return
+  }
+
+  if let valueDict = value as? [AnyHashable: AnyHashable] {
+    for key in valueDict.keys { 
+      hasher.combine(key)
+      deepHashTryKmp(value: valueDict[key]!, hasher: &hasher)
+    }
+    return
+  }
+
+  if let hashableValue = value as? AnyHashable {
+    hasher.combine(hashableValue.hashValue)
+  }
+
+  return hasher.combine(String(describing: value))
+}
+
+    
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct GitHubRepo: Hashable {
+  var totalCount: Int64
+  var incompleteResults: Bool
+  var items: [GitHubRepoItem]
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> GitHubRepo? {
+    let totalCount = pigeonVar_list[0] as! Int64
+    let incompleteResults = pigeonVar_list[1] as! Bool
+    let items = pigeonVar_list[2] as! [GitHubRepoItem]
+
+    return GitHubRepo(
+      totalCount: totalCount,
+      incompleteResults: incompleteResults,
+      items: items
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      totalCount,
+      incompleteResults,
+      items,
+    ]
+  }
+  static func == (lhs: GitHubRepo, rhs: GitHubRepo) -> Bool {
+    return deepEqualsTryKmp(lhs.toList(), rhs.toList())  }
+  func hash(into hasher: inout Hasher) {
+    deepHashTryKmp(value: toList(), hasher: &hasher)
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct GitHubRepoItem: Hashable {
+  var fullName: String
+  var description: String? = nil
+  var url: String
+  var updatedAt: String
+  var language: String? = nil
+
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> GitHubRepoItem? {
+    let fullName = pigeonVar_list[0] as! String
+    let description: String? = nilOrValue(pigeonVar_list[1])
+    let url = pigeonVar_list[2] as! String
+    let updatedAt = pigeonVar_list[3] as! String
+    let language: String? = nilOrValue(pigeonVar_list[4])
+
+    return GitHubRepoItem(
+      fullName: fullName,
+      description: description,
+      url: url,
+      updatedAt: updatedAt,
+      language: language
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      fullName,
+      description,
+      url,
+      updatedAt,
+      language,
+    ]
+  }
+  static func == (lhs: GitHubRepoItem, rhs: GitHubRepoItem) -> Bool {
+    return deepEqualsTryKmp(lhs.toList(), rhs.toList())  }
+  func hash(into hasher: inout Hasher) {
+    deepHashTryKmp(value: toList(), hasher: &hasher)
+  }
+}
 
 private class TryKmpPigeonCodecReader: FlutterStandardReader {
+  override func readValue(ofType type: UInt8) -> Any? {
+    switch type {
+    case 129:
+      return GitHubRepo.fromList(self.readValue() as! [Any?])
+    case 130:
+      return GitHubRepoItem.fromList(self.readValue() as! [Any?])
+    default:
+      return super.readValue(ofType: type)
+    }
+  }
 }
 
 private class TryKmpPigeonCodecWriter: FlutterStandardWriter {
+  override func writeValue(_ value: Any) {
+    if let value = value as? GitHubRepo {
+      super.writeByte(129)
+      super.writeValue(value.toList())
+    } else if let value = value as? GitHubRepoItem {
+      super.writeByte(130)
+      super.writeValue(value.toList())
+    } else {
+      super.writeValue(value)
+    }
+  }
 }
 
 private class TryKmpPigeonCodecReaderWriter: FlutterStandardReaderWriter {
@@ -89,7 +247,7 @@ class TryKmpPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol TryKmpHostApi {
   func time() throws -> String
-  func searchGitHubRepo(query: String, completion: @escaping (Result<String, Error>) -> Void)
+  func searchGitHubRepo(query: String, completion: @escaping (Result<GitHubRepo, Error>) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.

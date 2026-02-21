@@ -1,5 +1,7 @@
 import 'package:pigeon/pigeon.dart';
 
+// import 'entities/github_repo.dart';
+
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/bridges/trykmp.g.dart',
@@ -15,5 +17,33 @@ abstract class TryKmpHostApi {
   String time();
 
   @async
-  String searchGitHubRepo(String query);
+  GitHubRepo searchGitHubRepo(String query);
+}
+
+class GitHubRepo {
+  GitHubRepo({
+    required this.totalCount,
+    required this.incompleteResults,
+    required this.items,
+  });
+
+  int totalCount;
+  bool incompleteResults;
+  List<GitHubRepoItem> items;
+}
+
+class GitHubRepoItem {
+  GitHubRepoItem({
+    required this.fullName,
+    this.description,
+    required this.url,
+    required this.updatedAt,
+    this.language,
+  });
+
+  String fullName;
+  String? description;
+  String url;
+  String updatedAt;
+  String? language;
 }

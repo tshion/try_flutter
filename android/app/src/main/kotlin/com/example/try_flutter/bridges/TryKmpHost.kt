@@ -2,7 +2,9 @@ package com.example.try_flutter.bridges
 
 import io.github.tshion.trykmp.TryKmp
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 internal class TryKmpHost(
     private val scope: CoroutineScope,
@@ -17,14 +19,30 @@ internal class TryKmpHost(
 
     override fun searchGitHubRepo(
         query: String,
-        callback: (Result<String>) -> Unit
+        callback: (Result<GitHubRepo>) -> Unit
     ) {
         scope.launch {
-            try {
-                val result = model.searchGitHubRepo(query)
-                callback(Result.success(result.toString()))
-            } catch (e: Exception) {
-                callback(Result.failure(e))
+            withContext(Dispatchers.Default) {
+                try {
+                    val result = model.searchGitHubRepo(query)
+                    result.let { native ->
+                        GitHubRepo(
+                            native.totalCount.toLong(),
+                            native.incompleteResults,
+                            native.items.map {
+                                GitHubRepoItem(
+                                    it.fullName,
+                                    it.description,
+                                    it.url,
+                                    it.updatedAt.toString(),
+                                    it.language,
+                                )
+                            },
+                        )
+                    }.also { callback(Result.success(it)) }
+                } catch (e: Exception) {
+                    callback(Result.failure(e))
+                }
             }
         }
     }

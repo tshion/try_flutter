@@ -34,6 +34,36 @@ private object TryKmpPigeonUtils {
       )
     }
   }
+  fun deepEquals(a: Any?, b: Any?): Boolean {
+    if (a is ByteArray && b is ByteArray) {
+        return a.contentEquals(b)
+    }
+    if (a is IntArray && b is IntArray) {
+        return a.contentEquals(b)
+    }
+    if (a is LongArray && b is LongArray) {
+        return a.contentEquals(b)
+    }
+    if (a is DoubleArray && b is DoubleArray) {
+        return a.contentEquals(b)
+    }
+    if (a is Array<*> && b is Array<*>) {
+      return a.size == b.size &&
+          a.indices.all{ deepEquals(a[it], b[it]) }
+    }
+    if (a is List<*> && b is List<*>) {
+      return a.size == b.size &&
+          a.indices.all{ deepEquals(a[it], b[it]) }
+    }
+    if (a is Map<*, *> && b is Map<*, *>) {
+      return a.size == b.size && a.all {
+          (b as Map<Any?, Any?>).contains(it.key) &&
+          deepEquals(it.value, b[it.key])
+      }
+    }
+    return a == b
+  }
+      
 }
 
 /**
@@ -47,12 +77,108 @@ class FlutterError (
   override val message: String? = null,
   val details: Any? = null
 ) : Throwable()
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class GitHubRepo (
+  val totalCount: Long,
+  val incompleteResults: Boolean,
+  val items: List<GitHubRepoItem>
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): GitHubRepo {
+      val totalCount = pigeonVar_list[0] as Long
+      val incompleteResults = pigeonVar_list[1] as Boolean
+      val items = pigeonVar_list[2] as List<GitHubRepoItem>
+      return GitHubRepo(totalCount, incompleteResults, items)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      totalCount,
+      incompleteResults,
+      items,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is GitHubRepo) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return TryKmpPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class GitHubRepoItem (
+  val fullName: String,
+  val description: String? = null,
+  val url: String,
+  val updatedAt: String,
+  val language: String? = null
+)
+ {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): GitHubRepoItem {
+      val fullName = pigeonVar_list[0] as String
+      val description = pigeonVar_list[1] as String?
+      val url = pigeonVar_list[2] as String
+      val updatedAt = pigeonVar_list[3] as String
+      val language = pigeonVar_list[4] as String?
+      return GitHubRepoItem(fullName, description, url, updatedAt, language)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf(
+      fullName,
+      description,
+      url,
+      updatedAt,
+      language,
+    )
+  }
+  override fun equals(other: Any?): Boolean {
+    if (other !is GitHubRepoItem) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return TryKmpPigeonUtils.deepEquals(toList(), other.toList())  }
+
+  override fun hashCode(): Int = toList().hashCode()
+}
 private open class TryKmpPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
-    return     super.readValueOfType(type, buffer)
+    return when (type) {
+      129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          GitHubRepo.fromList(it)
+        }
+      }
+      130.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          GitHubRepoItem.fromList(it)
+        }
+      }
+      else -> super.readValueOfType(type, buffer)
+    }
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
-    super.writeValue(stream, value)
+    when (value) {
+      is GitHubRepo -> {
+        stream.write(129)
+        writeValue(stream, value.toList())
+      }
+      is GitHubRepoItem -> {
+        stream.write(130)
+        writeValue(stream, value.toList())
+      }
+      else -> super.writeValue(stream, value)
+    }
   }
 }
 
@@ -60,7 +186,7 @@ private open class TryKmpPigeonCodec : StandardMessageCodec() {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface TryKmpHostApi {
   fun time(): String
-  fun searchGitHubRepo(query: String, callback: (Result<String>) -> Unit)
+  fun searchGitHubRepo(query: String, callback: (Result<GitHubRepo>) -> Unit)
 
   companion object {
     /** The codec used by TryKmpHostApi. */
@@ -92,7 +218,7 @@ interface TryKmpHostApi {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val queryArg = args[0] as String
-            api.searchGitHubRepo(queryArg) { result: Result<String> ->
+            api.searchGitHubRepo(queryArg) { result: Result<GitHubRepo> ->
               val error = result.exceptionOrNull()
               if (error != null) {
                 reply.reply(TryKmpPigeonUtils.wrapError(error))

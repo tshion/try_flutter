@@ -14,6 +14,132 @@ PlatformException _createConnectionError(String channelName) {
     message: 'Unable to establish connection on channel: "$channelName".',
   );
 }
+bool _deepEquals(Object? a, Object? b) {
+  if (a is List && b is List) {
+    return a.length == b.length &&
+        a.indexed
+        .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
+  }
+  if (a is Map && b is Map) {
+    return a.length == b.length && a.entries.every((MapEntry<Object?, Object?> entry) =>
+        (b as Map<Object?, Object?>).containsKey(entry.key) &&
+        _deepEquals(entry.value, b[entry.key]));
+  }
+  return a == b;
+}
+
+
+class GitHubRepo {
+  GitHubRepo({
+    required this.totalCount,
+    required this.incompleteResults,
+    required this.items,
+  });
+
+  int totalCount;
+
+  bool incompleteResults;
+
+  List<GitHubRepoItem> items;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      totalCount,
+      incompleteResults,
+      items,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static GitHubRepo decode(Object result) {
+    result as List<Object?>;
+    return GitHubRepo(
+      totalCount: result[0]! as int,
+      incompleteResults: result[1]! as bool,
+      items: (result[2] as List<Object?>?)!.cast<GitHubRepoItem>(),
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! GitHubRepo || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
+
+class GitHubRepoItem {
+  GitHubRepoItem({
+    required this.fullName,
+    this.description,
+    required this.url,
+    required this.updatedAt,
+    this.language,
+  });
+
+  String fullName;
+
+  String? description;
+
+  String url;
+
+  String updatedAt;
+
+  String? language;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      fullName,
+      description,
+      url,
+      updatedAt,
+      language,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static GitHubRepoItem decode(Object result) {
+    result as List<Object?>;
+    return GitHubRepoItem(
+      fullName: result[0]! as String,
+      description: result[1] as String?,
+      url: result[2]! as String,
+      updatedAt: result[3]! as String,
+      language: result[4] as String?,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! GitHubRepoItem || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(encode(), other.encode());
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => Object.hashAll(_toList())
+;
+}
 
 
 class _PigeonCodec extends StandardMessageCodec {
@@ -23,6 +149,12 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
+    }    else if (value is GitHubRepo) {
+      buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    }    else if (value is GitHubRepoItem) {
+      buffer.putUint8(130);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -31,6 +163,10 @@ class _PigeonCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
+      case 129: 
+        return GitHubRepo.decode(readValue(buffer)!);
+      case 130: 
+        return GitHubRepoItem.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -77,7 +213,7 @@ class TryKmpHostApi {
     }
   }
 
-  Future<String> searchGitHubRepo(String query) async {
+  Future<GitHubRepo> searchGitHubRepo(String query) async {
     final pigeonVar_channelName = 'dev.flutter.pigeon.trykmp.TryKmpHostApi.searchGitHubRepo$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
@@ -100,7 +236,7 @@ class TryKmpHostApi {
         message: 'Host platform returned null value for non-null return value.',
       );
     } else {
-      return (pigeonVar_replyList[0] as String?)!;
+      return (pigeonVar_replyList[0] as GitHubRepo?)!;
     }
   }
 }

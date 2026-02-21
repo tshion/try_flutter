@@ -11,7 +11,7 @@ internal class TryKmpHost: TryKmpHostApi {
     func searchGitHubRepo(query: String, completion: @escaping (Result<String, any Error>) -> Void) {
         model.searchGitHubRepo(query: query) { result, error in
             if let result = result {
-                completion(.success(result))
+                completion(.success("\(result)"))
             }
             completion(.failure(error ?? PigeonError(code: "", message: nil, details: nil)))
         }

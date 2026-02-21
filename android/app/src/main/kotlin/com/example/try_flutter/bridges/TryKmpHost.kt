@@ -22,7 +22,7 @@ internal class TryKmpHost(
         scope.launch {
             try {
                 val result = model.searchGitHubRepo(query)
-                callback(Result.success(result))
+                callback(Result.success(result.toString()))
             } catch (e: Exception) {
                 callback(Result.failure(e))
             }

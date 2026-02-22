@@ -4,14 +4,14 @@ internal class TryKmpHost: TryKmpHostApi {
     private let model = TryKmp()
     
        
-    func searchGitHubRepo(query: String, completion: @escaping (Result<GitHubRepo, any Error>) -> Void) {
+    func searchGitHubRepo(query: String, completion: @escaping (Result<GitHubRepoDto, any Error>) -> Void) {
         model.searchGitHubRepo(query: query) { result, error in
             if let result = result {
-                let mapped = GitHubRepo(
+                let mapped = GitHubRepoDto(
                     totalCount: Int64(result.totalCount),
                     incompleteResults: result.incompleteResults,
                     items: result.items.map {
-                        GitHubRepoItem(
+                        GitHubRepoItemDto(
                             fullName: $0.fullName,
                             description: $0.description,
                             url: $0.url,

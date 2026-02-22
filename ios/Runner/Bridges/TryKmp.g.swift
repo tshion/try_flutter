@@ -129,19 +129,19 @@ func deepHashTryKmp(value: Any?, hasher: inout Hasher) {
     
 
 /// Generated class from Pigeon that represents data sent in messages.
-struct GitHubRepo: Hashable {
+struct GitHubRepoDto: Hashable {
   var totalCount: Int64
   var incompleteResults: Bool
-  var items: [GitHubRepoItem]
+  var items: [GitHubRepoItemDto]
 
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
-  static func fromList(_ pigeonVar_list: [Any?]) -> GitHubRepo? {
+  static func fromList(_ pigeonVar_list: [Any?]) -> GitHubRepoDto? {
     let totalCount = pigeonVar_list[0] as! Int64
     let incompleteResults = pigeonVar_list[1] as! Bool
-    let items = pigeonVar_list[2] as! [GitHubRepoItem]
+    let items = pigeonVar_list[2] as! [GitHubRepoItemDto]
 
-    return GitHubRepo(
+    return GitHubRepoDto(
       totalCount: totalCount,
       incompleteResults: incompleteResults,
       items: items
@@ -154,7 +154,7 @@ struct GitHubRepo: Hashable {
       items,
     ]
   }
-  static func == (lhs: GitHubRepo, rhs: GitHubRepo) -> Bool {
+  static func == (lhs: GitHubRepoDto, rhs: GitHubRepoDto) -> Bool {
     return deepEqualsTryKmp(lhs.toList(), rhs.toList())  }
   func hash(into hasher: inout Hasher) {
     deepHashTryKmp(value: toList(), hasher: &hasher)
@@ -162,7 +162,7 @@ struct GitHubRepo: Hashable {
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
-struct GitHubRepoItem: Hashable {
+struct GitHubRepoItemDto: Hashable {
   var fullName: String
   var description: String? = nil
   var url: String
@@ -171,14 +171,14 @@ struct GitHubRepoItem: Hashable {
 
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
-  static func fromList(_ pigeonVar_list: [Any?]) -> GitHubRepoItem? {
+  static func fromList(_ pigeonVar_list: [Any?]) -> GitHubRepoItemDto? {
     let fullName = pigeonVar_list[0] as! String
     let description: String? = nilOrValue(pigeonVar_list[1])
     let url = pigeonVar_list[2] as! String
     let updatedAt = pigeonVar_list[3] as! String
     let language: String? = nilOrValue(pigeonVar_list[4])
 
-    return GitHubRepoItem(
+    return GitHubRepoItemDto(
       fullName: fullName,
       description: description,
       url: url,
@@ -195,7 +195,7 @@ struct GitHubRepoItem: Hashable {
       language,
     ]
   }
-  static func == (lhs: GitHubRepoItem, rhs: GitHubRepoItem) -> Bool {
+  static func == (lhs: GitHubRepoItemDto, rhs: GitHubRepoItemDto) -> Bool {
     return deepEqualsTryKmp(lhs.toList(), rhs.toList())  }
   func hash(into hasher: inout Hasher) {
     deepHashTryKmp(value: toList(), hasher: &hasher)
@@ -206,9 +206,9 @@ private class TryKmpPigeonCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
     case 129:
-      return GitHubRepo.fromList(self.readValue() as! [Any?])
+      return GitHubRepoDto.fromList(self.readValue() as! [Any?])
     case 130:
-      return GitHubRepoItem.fromList(self.readValue() as! [Any?])
+      return GitHubRepoItemDto.fromList(self.readValue() as! [Any?])
     default:
       return super.readValue(ofType: type)
     }
@@ -217,10 +217,10 @@ private class TryKmpPigeonCodecReader: FlutterStandardReader {
 
 private class TryKmpPigeonCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? GitHubRepo {
+    if let value = value as? GitHubRepoDto {
       super.writeByte(129)
       super.writeValue(value.toList())
-    } else if let value = value as? GitHubRepoItem {
+    } else if let value = value as? GitHubRepoItemDto {
       super.writeByte(130)
       super.writeValue(value.toList())
     } else {
@@ -247,7 +247,7 @@ class TryKmpPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol TryKmpHostApi {
   func time() throws -> String
-  func searchGitHubRepo(query: String, completion: @escaping (Result<GitHubRepo, Error>) -> Void)
+  func searchGitHubRepo(query: String, completion: @escaping (Result<GitHubRepoDto, Error>) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.

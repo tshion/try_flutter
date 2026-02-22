@@ -19,18 +19,18 @@ internal class TryKmpHost(
 
     override fun searchGitHubRepo(
         query: String,
-        callback: (Result<GitHubRepo>) -> Unit
+        callback: (Result<GitHubRepoDto>) -> Unit
     ) {
         scope.launch {
             withContext(Dispatchers.Default) {
                 try {
                     val result = model.searchGitHubRepo(query)
                     result.let { native ->
-                        GitHubRepo(
+                        GitHubRepoDto(
                             native.totalCount.toLong(),
                             native.incompleteResults,
                             native.items.map {
-                                GitHubRepoItem(
+                                GitHubRepoItemDto(
                                     it.fullName,
                                     it.description,
                                     it.url,

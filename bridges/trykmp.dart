@@ -1,7 +1,5 @@
 import 'package:pigeon/pigeon.dart';
 
-// import 'entities/github_repo.dart';
-
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/bridges/trykmp.g.dart',
@@ -17,23 +15,23 @@ abstract class TryKmpHostApi {
   String time();
 
   @async
-  GitHubRepo searchGitHubRepo(String query);
+  GitHubRepoDto searchGitHubRepo(String query);
 }
 
-class GitHubRepo {
-  GitHubRepo({
+class GitHubRepoDto {
+  const GitHubRepoDto({
     required this.totalCount,
     required this.incompleteResults,
     required this.items,
   });
 
-  int totalCount;
-  bool incompleteResults;
-  List<GitHubRepoItem> items;
+  final int totalCount;
+  final bool incompleteResults;
+  final List<GitHubRepoItemDto> items;
 }
 
-class GitHubRepoItem {
-  GitHubRepoItem({
+class GitHubRepoItemDto {
+  const GitHubRepoItemDto({
     required this.fullName,
     this.description,
     required this.url,
@@ -41,9 +39,9 @@ class GitHubRepoItem {
     this.language,
   });
 
-  String fullName;
-  String? description;
-  String url;
-  String updatedAt;
-  String? language;
+  final String fullName;
+  final String? description;
+  final String url;
+  final String updatedAt;
+  final String? language;
 }

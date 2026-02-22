@@ -22,7 +22,7 @@ class _TopScreenState extends State<TopScreen> {
         .searchGitHubRepo("flutter")
         .then(
           (value) => setState(() {
-            _text = value.items.map((GitHubRepoItem item) => item.fullName).join("\n");
+            _text = value.items.map((GitHubRepoItemDto item) => item.fullName).join("\n");
           }),
         )
         .catchError((error) => setState(() {

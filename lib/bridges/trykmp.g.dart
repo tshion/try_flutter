@@ -29,8 +29,8 @@ bool _deepEquals(Object? a, Object? b) {
 }
 
 
-class GitHubRepo {
-  GitHubRepo({
+class GitHubRepoDto {
+  GitHubRepoDto({
     required this.totalCount,
     required this.incompleteResults,
     required this.items,
@@ -40,7 +40,7 @@ class GitHubRepo {
 
   bool incompleteResults;
 
-  List<GitHubRepoItem> items;
+  List<GitHubRepoItemDto> items;
 
   List<Object?> _toList() {
     return <Object?>[
@@ -53,19 +53,19 @@ class GitHubRepo {
   Object encode() {
     return _toList();  }
 
-  static GitHubRepo decode(Object result) {
+  static GitHubRepoDto decode(Object result) {
     result as List<Object?>;
-    return GitHubRepo(
+    return GitHubRepoDto(
       totalCount: result[0]! as int,
       incompleteResults: result[1]! as bool,
-      items: (result[2] as List<Object?>?)!.cast<GitHubRepoItem>(),
+      items: (result[2] as List<Object?>?)!.cast<GitHubRepoItemDto>(),
     );
   }
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) {
-    if (other is! GitHubRepo || other.runtimeType != runtimeType) {
+    if (other is! GitHubRepoDto || other.runtimeType != runtimeType) {
       return false;
     }
     if (identical(this, other)) {
@@ -80,8 +80,8 @@ class GitHubRepo {
 ;
 }
 
-class GitHubRepoItem {
-  GitHubRepoItem({
+class GitHubRepoItemDto {
+  GitHubRepoItemDto({
     required this.fullName,
     this.description,
     required this.url,
@@ -112,9 +112,9 @@ class GitHubRepoItem {
   Object encode() {
     return _toList();  }
 
-  static GitHubRepoItem decode(Object result) {
+  static GitHubRepoItemDto decode(Object result) {
     result as List<Object?>;
-    return GitHubRepoItem(
+    return GitHubRepoItemDto(
       fullName: result[0]! as String,
       description: result[1] as String?,
       url: result[2]! as String,
@@ -126,7 +126,7 @@ class GitHubRepoItem {
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) {
-    if (other is! GitHubRepoItem || other.runtimeType != runtimeType) {
+    if (other is! GitHubRepoItemDto || other.runtimeType != runtimeType) {
       return false;
     }
     if (identical(this, other)) {
@@ -149,10 +149,10 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    }    else if (value is GitHubRepo) {
+    }    else if (value is GitHubRepoDto) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    }    else if (value is GitHubRepoItem) {
+    }    else if (value is GitHubRepoItemDto) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
     } else {
@@ -164,9 +164,9 @@ class _PigeonCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 129: 
-        return GitHubRepo.decode(readValue(buffer)!);
+        return GitHubRepoDto.decode(readValue(buffer)!);
       case 130: 
-        return GitHubRepoItem.decode(readValue(buffer)!);
+        return GitHubRepoItemDto.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -213,7 +213,7 @@ class TryKmpHostApi {
     }
   }
 
-  Future<GitHubRepo> searchGitHubRepo(String query) async {
+  Future<GitHubRepoDto> searchGitHubRepo(String query) async {
     final pigeonVar_channelName = 'dev.flutter.pigeon.trykmp.TryKmpHostApi.searchGitHubRepo$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
@@ -236,7 +236,7 @@ class TryKmpHostApi {
         message: 'Host platform returned null value for non-null return value.',
       );
     } else {
-      return (pigeonVar_replyList[0] as GitHubRepo?)!;
+      return (pigeonVar_replyList[0] as GitHubRepoDto?)!;
     }
   }
 }

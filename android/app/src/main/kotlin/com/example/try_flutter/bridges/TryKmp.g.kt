@@ -79,18 +79,18 @@ class FlutterError (
 ) : Throwable()
 
 /** Generated class from Pigeon that represents data sent in messages. */
-data class GitHubRepo (
+data class GitHubRepoDto (
   val totalCount: Long,
   val incompleteResults: Boolean,
-  val items: List<GitHubRepoItem>
+  val items: List<GitHubRepoItemDto>
 )
  {
   companion object {
-    fun fromList(pigeonVar_list: List<Any?>): GitHubRepo {
+    fun fromList(pigeonVar_list: List<Any?>): GitHubRepoDto {
       val totalCount = pigeonVar_list[0] as Long
       val incompleteResults = pigeonVar_list[1] as Boolean
-      val items = pigeonVar_list[2] as List<GitHubRepoItem>
-      return GitHubRepo(totalCount, incompleteResults, items)
+      val items = pigeonVar_list[2] as List<GitHubRepoItemDto>
+      return GitHubRepoDto(totalCount, incompleteResults, items)
     }
   }
   fun toList(): List<Any?> {
@@ -101,7 +101,7 @@ data class GitHubRepo (
     )
   }
   override fun equals(other: Any?): Boolean {
-    if (other !is GitHubRepo) {
+    if (other !is GitHubRepoDto) {
       return false
     }
     if (this === other) {
@@ -113,7 +113,7 @@ data class GitHubRepo (
 }
 
 /** Generated class from Pigeon that represents data sent in messages. */
-data class GitHubRepoItem (
+data class GitHubRepoItemDto (
   val fullName: String,
   val description: String? = null,
   val url: String,
@@ -122,13 +122,13 @@ data class GitHubRepoItem (
 )
  {
   companion object {
-    fun fromList(pigeonVar_list: List<Any?>): GitHubRepoItem {
+    fun fromList(pigeonVar_list: List<Any?>): GitHubRepoItemDto {
       val fullName = pigeonVar_list[0] as String
       val description = pigeonVar_list[1] as String?
       val url = pigeonVar_list[2] as String
       val updatedAt = pigeonVar_list[3] as String
       val language = pigeonVar_list[4] as String?
-      return GitHubRepoItem(fullName, description, url, updatedAt, language)
+      return GitHubRepoItemDto(fullName, description, url, updatedAt, language)
     }
   }
   fun toList(): List<Any?> {
@@ -141,7 +141,7 @@ data class GitHubRepoItem (
     )
   }
   override fun equals(other: Any?): Boolean {
-    if (other !is GitHubRepoItem) {
+    if (other !is GitHubRepoItemDto) {
       return false
     }
     if (this === other) {
@@ -156,12 +156,12 @@ private open class TryKmpPigeonCodec : StandardMessageCodec() {
     return when (type) {
       129.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          GitHubRepo.fromList(it)
+          GitHubRepoDto.fromList(it)
         }
       }
       130.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          GitHubRepoItem.fromList(it)
+          GitHubRepoItemDto.fromList(it)
         }
       }
       else -> super.readValueOfType(type, buffer)
@@ -169,11 +169,11 @@ private open class TryKmpPigeonCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is GitHubRepo -> {
+      is GitHubRepoDto -> {
         stream.write(129)
         writeValue(stream, value.toList())
       }
-      is GitHubRepoItem -> {
+      is GitHubRepoItemDto -> {
         stream.write(130)
         writeValue(stream, value.toList())
       }
@@ -186,7 +186,7 @@ private open class TryKmpPigeonCodec : StandardMessageCodec() {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface TryKmpHostApi {
   fun time(): String
-  fun searchGitHubRepo(query: String, callback: (Result<GitHubRepo>) -> Unit)
+  fun searchGitHubRepo(query: String, callback: (Result<GitHubRepoDto>) -> Unit)
 
   companion object {
     /** The codec used by TryKmpHostApi. */
@@ -218,7 +218,7 @@ interface TryKmpHostApi {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val queryArg = args[0] as String
-            api.searchGitHubRepo(queryArg) { result: Result<GitHubRepo> ->
+            api.searchGitHubRepo(queryArg) { result: Result<GitHubRepoDto> ->
               val error = result.exceptionOrNull()
               if (error != null) {
                 reply.reply(TryKmpPigeonUtils.wrapError(error))

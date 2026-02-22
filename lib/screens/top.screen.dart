@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:try_flutter/bridges/trykmp.g.dart';
+import 'package:try_flutter/designs/loading.overlay.dart';
 
 /// トップ画面
 class TopScreen extends StatefulWidget {
@@ -12,7 +13,8 @@ class TopScreen extends StatefulWidget {
 }
 
 class _TopScreenState extends State<TopScreen> {
-  String _text = 'Loading...';
+  bool _isLoading = true;
+  List<GitHubRepoItemDto> _list = [];
   final _trykmp = TryKmpHostApi();
 
   @override
@@ -22,11 +24,13 @@ class _TopScreenState extends State<TopScreen> {
         .searchGitHubRepo("flutter")
         .then(
           (value) => setState(() {
-            _text = value.items.map((GitHubRepoItemDto item) => item.fullName).join("\n");
+            _list = value.items;
           }),
         )
-        .catchError((error) => setState(() {
-              _text = error.toString();
+        .catchError((error) => debugPrint(error.toString()))
+        .whenComplete(
+          () => setState(() {
+            _isLoading = false;
           }),
         );
   }
@@ -43,7 +47,16 @@ class _TopScreenState extends State<TopScreen> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Text(_text),
+      body: Stack(
+        children: [
+          ListView.builder(
+            itemCount: _list.length,
+            itemBuilder: (context, index) =>
+                ListTile(title: Text(_list[index].fullName)),
+          ),
+          if (_isLoading) ...{const LoadingOverlay()},
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showTimer(context),
         tooltip: 'Show current time',

@@ -32,13 +32,14 @@ class _LauncherScreenState extends State<LauncherScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: AlignmentDirectional.center,
       children: [
         Container(
           color: Color(0xFFFFFFFF),
           constraints: BoxConstraints.expand(),
         ),
-        Center(child: const Text("Launcher")),
-        LoadingOverlay(),
+        const Text("Launcher"),
+        const LoadingOverlay(),
       ],
     );
   }

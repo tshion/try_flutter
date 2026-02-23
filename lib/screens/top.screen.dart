@@ -27,7 +27,24 @@ class _TopScreenState extends State<TopScreen> {
             _list = value.items;
           }),
         )
-        .catchError((error) => debugPrint(error.toString()))
+        .catchError((error) {
+          debugPrint(error.toString());
+          if (mounted) {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Error'),
+                content: Text(error.toString()),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          }
+        })
         .whenComplete(
           () => setState(() {
             _isLoading = false;

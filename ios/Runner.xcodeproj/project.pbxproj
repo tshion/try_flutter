@@ -10,6 +10,7 @@
 		05F69B3A2F459C0A000AA997 /* TryKMP in Frameworks */ = {isa = PBXBuildFile; productRef = 05F69B392F459C0A000AA997 /* TryKMP */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterGeneratedPluginSwiftPackage; path = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -64,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */,
 				05F69B3A2F459C0A000AA997 /* TryKMP in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,6 +85,7 @@
 		9740EEB11CF90186004384FC /* Flutter */ = {
 			isa = PBXGroup;
 			children = (
+				78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */,
 				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
 				9740EEB21CF90195004384FC /* Debug.xcconfig */,
 				7AFA3C8E1D35360C0083082E /* Release.xcconfig */,
@@ -130,6 +134,9 @@
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
+			packageProductDependencies = (
+				78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */,
+			);
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
@@ -182,7 +189,7 @@
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
-				05F69B382F459C0A000AA997 /* XCRemoteSwiftPackageReference "TryKMMRepo" */,
+				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage" */,
 			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
@@ -605,7 +612,17 @@
 			package = 05F69B382F459C0A000AA997 /* XCRemoteSwiftPackageReference "TryKMMRepo" */;
 			productName = TryKMP;
 		};
+		78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlutterGeneratedPluginSwiftPackage;
+		};
 /* End XCSwiftPackageProductDependency section */
+/* Begin XCLocalSwiftPackageReference section */
+		781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage;
+		};
+/* End XCLocalSwiftPackageReference section */
 	};
 	rootObject = 97C146E61CF9000F007C117D /* Project object */;
 }

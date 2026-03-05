@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:try_flutter/bridges/trykmp.g.dart';
 import 'package:try_flutter/designs/loading.overlay.dart';
+import 'package:try_flutter_plugin/try_flutter_plugin.dart';
 
 /// トップ画面
 class TopScreen extends StatefulWidget {
@@ -15,7 +15,7 @@ class TopScreen extends StatefulWidget {
 class _TopScreenState extends State<TopScreen> {
   bool _isLoading = true;
   List<GitHubRepoItemDto> _list = [];
-  final _trykmp = TryKmpHostApi();
+  final _trykmp = TryKmpPlugin();
 
   @override
   void initState() {

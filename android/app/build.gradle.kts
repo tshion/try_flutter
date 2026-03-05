@@ -11,7 +11,6 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -25,7 +24,7 @@ android {
         applicationId = "com.example.try_flutter"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 29 // flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -45,13 +44,6 @@ flutter {
 }
 
 dependencies {
-    implementation(files("libs/trykmp-android-0.1.4.aar"))
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
-
-    val ktor = "3.4.0"
-    implementation("io.ktor:ktor-client-content-negotiation:${ktor}")
-    implementation("io.ktor:ktor-client-okhttp:$ktor")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
+    // プラグインにあるLocal AAR の依存を推移させられないため
+    implementation(files("libs/trykmp-android-0.1.5.aar"))
 }
